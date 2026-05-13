@@ -1,11 +1,8 @@
-import 'package:city_chat/core/constants/services/socket_service.dart';
-import 'package:city_chat/features/matchmaking/presentation/screens/home_screen.dart';
+import 'package:city_chat/features/matchmaking/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
-  Get.put(SocketService()).connect();
-
   runApp(const MyApp());
 }
 
@@ -17,8 +14,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'City Chat',
-      theme: ThemeData.dark(),
-      home: const HomeScreen(),
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+        scaffoldBackgroundColor: const Color(0xff0F1115),
+      ),
+      home: const SplashScreen(),
     );
   }
 }
