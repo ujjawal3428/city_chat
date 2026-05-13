@@ -18,7 +18,6 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-
             // ── TOP BAR ──────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -53,7 +52,10 @@ class HomeScreen extends StatelessWidget {
                           SizedBox(height: 2),
                           Text(
                             'Find your perfect stranger',
-                            style: TextStyle(color: Colors.white54, fontSize: 13),
+                            style: TextStyle(
+                              color: Colors.white54,
+                              fontSize: 13,
+                            ),
                           ),
                         ],
                       ),
@@ -61,46 +63,51 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   // Online/Offline pill
-                  Obx(() => Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff1A1D24),
-                      borderRadius: BorderRadius.circular(16),
+                  Obx(
+                    () => Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xff1A1D24),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: home.isOnline.value
+                                ? Colors.green
+                                : Colors.red,
+                            size: 12,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            home.isOnline.value ? 'Online' : 'Offline',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          color: home.isOnline.value ? Colors.green : Colors.red,
-                          size: 12,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          home.isOnline.value ? 'Online' : 'Offline',
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  )),
+                  ),
                 ],
               ),
             ),
 
             // ── VIDEO + CHAT ──────────────────────────────────────
             SizedBox(
-              height: screenHeight * 0.60,
+              height: screenHeight * 0.50,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   children: [
-
                     // LEFT — Your camera (60 %)
                     Expanded(
                       flex: 6,
                       child: Stack(
                         fit: StackFit.expand,
                         children: [
-
                           // ── Camera preview (or fallback) ──────
                           ClipRRect(
                             borderRadius: const BorderRadius.only(
@@ -109,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             child: Obx(() {
                               final ready = home.isCameraReady.value;
-                              final on    = home.isCameraOn.value;
+                              final on = home.isCameraOn.value;
 
                               if (!ready) {
                                 // Still initialising
@@ -154,7 +161,9 @@ class HomeScreen extends StatelessWidget {
                               // Live preview — mirror it so it feels natural
                               return Transform(
                                 alignment: Alignment.center,
-                                transform: Matrix4.rotationY(3.14159), // horizontal flip
+                                transform: Matrix4.rotationY(
+                                  3.14159,
+                                ), // horizontal flip
                                 child: CameraPreview(home.cameraController!),
                               );
                             }),
@@ -175,7 +184,11 @@ class HomeScreen extends StatelessWidget {
                               ),
                               child: const Row(
                                 children: [
-                                  Icon(Icons.circle, color: Colors.green, size: 8),
+                                  Icon(
+                                    Icons.circle,
+                                    color: Colors.green,
+                                    size: 8,
+                                  ),
                                   SizedBox(width: 6),
                                   Text(
                                     'You',
@@ -194,26 +207,30 @@ class HomeScreen extends StatelessWidget {
                           Positioned(
                             top: 14,
                             right: 14,
-                            child: Obx(() => GestureDetector(
-                              onTap: home.toggleCamera,
-                              child: Container(
-                                width: 36,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color: home.isCameraOn.value
-                                      ? Colors.black45
-                                      : const Color(0xffFF4B4B).withOpacity(0.85),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  home.isCameraOn.value
-                                      ? Icons.videocam
-                                      : Icons.videocam_off,
-                                  color: Colors.white,
-                                  size: 18,
+                            child: Obx(
+                              () => GestureDetector(
+                                onTap: home.toggleCamera,
+                                child: Container(
+                                  width: 36,
+                                  height: 36,
+                                  decoration: BoxDecoration(
+                                    color: home.isCameraOn.value
+                                        ? Colors.black45
+                                        : const Color(
+                                            0xffFF4B4B,
+                                          ).withOpacity(0.85),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    home.isCameraOn.value
+                                        ? Icons.videocam
+                                        : Icons.videocam_off,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
                                 ),
                               ),
-                            )),
+                            ),
                           ),
 
                           // Stranger PiP — bottom right
@@ -254,7 +271,11 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       child: const Row(
                                         children: [
-                                          Icon(Icons.circle, color: Colors.green, size: 6),
+                                          Icon(
+                                            Icons.circle,
+                                            color: Colors.green,
+                                            size: 6,
+                                          ),
                                           SizedBox(width: 4),
                                           Text(
                                             'Stranger',
@@ -288,10 +309,14 @@ class HomeScreen extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-
                             // Chat header
                             Container(
-                              padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+                              padding: const EdgeInsets.fromLTRB(
+                                16,
+                                14,
+                                16,
+                                12,
+                              ),
                               decoration: const BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
@@ -302,7 +327,11 @@ class HomeScreen extends StatelessWidget {
                               ),
                               child: const Row(
                                 children: [
-                                  Icon(Icons.circle, color: Colors.green, size: 9),
+                                  Icon(
+                                    Icons.circle,
+                                    color: Colors.green,
+                                    size: 9,
+                                  ),
                                   SizedBox(width: 8),
                                   Text(
                                     'Live Chat',
@@ -324,11 +353,31 @@ class HomeScreen extends StatelessWidget {
                                   vertical: 10,
                                 ),
                                 children: [
-                                  _chatLine(sender: 'Stranger', message: 'heyy! 👋',                    isMe: false),
-                                  _chatLine(sender: 'You',      message: 'Hi there! ❤️',               isMe: true),
-                                  _chatLine(sender: 'Stranger', message: 'Where are you from?',         isMe: false),
-                                  _chatLine(sender: 'You',      message: 'I\'m from Indore! 🌆',        isMe: true),
-                                  _chatLine(sender: 'Stranger', message: 'Oh nice! What\'s it like there?', isMe: false),
+                                  _chatLine(
+                                    sender: 'Stranger',
+                                    message: 'heyy! 👋',
+                                    isMe: false,
+                                  ),
+                                  _chatLine(
+                                    sender: 'You',
+                                    message: 'Hi there! ❤️',
+                                    isMe: true,
+                                  ),
+                                  _chatLine(
+                                    sender: 'Stranger',
+                                    message: 'Where are you from?',
+                                    isMe: false,
+                                  ),
+                                  _chatLine(
+                                    sender: 'You',
+                                    message: 'I\'m from Indore! 🌆',
+                                    isMe: true,
+                                  ),
+                                  _chatLine(
+                                    sender: 'Stranger',
+                                    message: 'Oh nice! What\'s it like there?',
+                                    isMe: false,
+                                  ),
                                 ],
                               ),
                             ),
@@ -338,7 +387,10 @@ class HomeScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(12),
                               decoration: const BoxDecoration(
                                 border: Border(
-                                  top: BorderSide(color: Color(0xff23262F), width: 1),
+                                  top: BorderSide(
+                                    color: Color(0xff23262F),
+                                    width: 1,
+                                  ),
                                 ),
                               ),
                               child: Row(
@@ -346,13 +398,18 @@ class HomeScreen extends StatelessWidget {
                                   Expanded(
                                     child: Container(
                                       height: 40,
-                                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 14,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: const Color(0xff1E2128),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: const TextField(
-                                        style: TextStyle(color: Colors.white, fontSize: 13),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                        ),
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText: 'Type a message...',
@@ -361,7 +418,9 @@ class HomeScreen extends StatelessWidget {
                                             fontSize: 13,
                                           ),
                                           isDense: true,
-                                          contentPadding: EdgeInsets.symmetric(vertical: 10),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -373,10 +432,17 @@ class HomeScreen extends StatelessWidget {
                                     decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                       gradient: LinearGradient(
-                                        colors: [Color(0xffFF4B91), Color(0xff9D44FF)],
+                                        colors: [
+                                          Color(0xffFF4B91),
+                                          Color(0xff9D44FF),
+                                        ],
                                       ),
                                     ),
-                                    child: const Icon(Icons.send, color: Colors.white, size: 18),
+                                    child: const Icon(
+                                      Icons.send,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -414,13 +480,15 @@ class HomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: Obx(() => home.buildDropdown(
-                            title: 'City',
-                            icon: Icons.location_city,
-                            selected: home.selectedCity,
-                            items: home.cities,
-                            onChanged: home.onCityChanged,
-                          )),
+                          child: Obx(
+                            () => home.buildDropdown(
+                              title: 'City',
+                              icon: Icons.location_city,
+                              selected: home.selectedCity,
+                              items: home.cities,
+                              onChanged: home.onCityChanged,
+                            ),
+                          ),
                         ),
                       ],
                     ),
