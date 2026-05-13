@@ -1,11 +1,8 @@
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
-const cors = require("cors");
 
 const app = express();
-
-app.use(cors());
 
 const server = http.createServer(app);
 
@@ -15,32 +12,33 @@ const io = new Server(server, {
   },
 });
 
-let waitingUsers = [];
+let waitingUser = null;
 
 io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
+  console.log("User connected");
 
   socket.on("joinQueue", () => {
-    waitingUsers.push(socket.id);
+    if (waitingUser) {
+      socket.partner = waitingUser.id;
+      waitingUser.partner = socket.id;
 
-    console.log(waitingUsers);
+      socket.emit("matched", waitingUser.id);
 
-    if (waitingUsers.length >= 2) {
-      const user1 = waitingUsers.shift();
-      const user2 = waitingUsers.shift();
+      waitingUser.emit("matched", socket.id);
 
-      io.to(user1).emit("matched", user2);
-      io.to(user2).emit("matched", user1);
+      waitingUser = null;
+    } else {
+      waitingUser = socket;
+    }
+  });
 
-      console.log("Matched users");
+  socket.on("message", (message) => {
+    if (socket.partner) {
+      io.to(socket.partner).emit("message", message);
     }
   });
 
   socket.on("disconnect", () => {
-    waitingUsers = waitingUsers.filter(
-      id => id !== socket.id
-    );
-
     console.log("User disconnected");
   });
 });
